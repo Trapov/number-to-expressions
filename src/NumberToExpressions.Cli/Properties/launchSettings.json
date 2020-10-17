@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NumberToExpressions.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "3,4 --complexity=100 --verbose"
+    }
+  }
+}

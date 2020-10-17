@@ -1,0 +1,106 @@
+﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> Expressions ➕ </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true">
+  <script src="~/libs/vue.global.prod.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="input-form">
+      <span>Your number: </span>
+      <input type="number" v-model="model.number" />
+      <span> Your complexity: </span>
+      <input min="0" max="1000" type="range" v-model="model.complexity" />
+    </div>
+    <div v-on:click="copyToCp" class="expression-container">
+      <div> {{ expression }} </div>
+    </div>
+  </div>
+  <script>
+    function fallbackCopyTextToClipboard(text) {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.position = "fixed";
+
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+      } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+      }
+
+      document.body.removeChild(textArea);
+    }
+    function copyTextToClipboard(text) {
+      if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+      }
+      navigator.clipboard.writeText(text).then(function () {
+        console.debug('Async: Copying to clipboard was successful!');
+      }, function (err) {
+        console.error('Async: Could not copy text: ', err);
+      });
+    }
+    const App = {
+      data() {
+        return {
+          model: {
+            number: "10",
+            complexity: "1"
+          },
+          expression: "0"
+        }
+      },
+      watch: {
+        model: {
+          async handler(newmodel) {
+            await this.findExpressions({
+              number: parseFloat(newmodel.number),
+              complexity: parseInt(newmodel.complexity)
+            });
+          },
+          deep: true
+        }
+      },
+      async mounted() {
+        await this.findExpressions({
+          number: parseFloat(this.model.number),
+          complexity: parseInt(this.model.complexity)
+        });
+      },
+      methods: {
+        copyToCp() {
+          copyTextToClipboard(this.expression);
+        },
+        async findExpressions(model) {
+          const result = await fetch('/api/expressions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(model)
+          });
+          this.expression = (await result.json())?.value;
+        }
+      }
+    };
+    Vue.createApp(App).mount('#app');
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+﻿body {
+  margin: auto;
+}
+
+.input-form {
+  left: 0;
+  margin: auto;
+  margin-top: 30px;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  cursor: pointer;
+  border: 3px dashed darkviolet;
+}
+
+  .input-form:hover {
+    background-color: aliceblue;
+  }
+
+.expression-container {
+  text-align: center;
+  word-break: break-word;
+  left: 0;
+  margin: auto;
+  margin-top: 30px;
+  max-width: 450px;
+  padding: 15px;
+  cursor: pointer;
+  border: 3px dashed darkviolet;
+}
+
+  .expression-container:hover {
+    background-color: aliceblue;
+  }
+
+.input-form input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
