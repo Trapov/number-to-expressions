@@ -1,4 +1,4 @@
-﻿namespace NumberToExpressions.Application.Operations {
+﻿namespace NumberToExpressions.Expressions.Operations {
 
   using System;
 

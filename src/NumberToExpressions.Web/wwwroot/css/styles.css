@@ -2,6 +2,29 @@
   margin: auto;
 }
 
+div .title {
+  text-align: center;
+  margin-top: -27px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 15px;
+}
+
+  div .title span {
+    background-color: white;
+  }
+
+.made-by {
+  padding: 15px;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+  border-radius: 5%;
+}
+  .made-by:hover {
+    background-color: aliceblue;
+  }
+
 .input-form {
   left: 0;
   margin: auto;

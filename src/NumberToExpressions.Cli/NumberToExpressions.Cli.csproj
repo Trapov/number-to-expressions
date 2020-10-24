@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NumberToExpressions.Application\NumberToExpressions.Application.csproj" />
+    <ProjectReference Include="..\NumberToExpressions.Expressions.Operations\NumberToExpressions.Expressions.Operations.csproj" />
+    <ProjectReference Include="..\NumberToExpressions.Expressions\NumberToExpressions.Expressions.csproj" />
   </ItemGroup>
 
 </Project>

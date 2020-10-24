@@ -1,12 +1,12 @@
-﻿namespace NumberToExpressions.Application.Expressions {
+﻿namespace NumberToExpressions.Expressions {
 
   using System;
   using System.Diagnostics;
 
-  using NumberToExpressions.Application.Operations;
+  using NumberToExpressions.Expressions.Operations;
 
   [DebuggerDisplay("{Value} = {Left?.Value} {Operation} {Middle?.Value} + {Right?.Value}")]
-  public sealed class Node {
+  public sealed class ExpressionNode {
     public IOperation Operation { get; set; }
     public Double Value { get; set; }
 
@@ -14,10 +14,10 @@
     public Boolean IsMiddle { get; set; }
     public Boolean IsRight { get; set; }
 
-    public Node Left { get; set; }
-    public Node Middle { get; set; }
-    public Node Right { get; set; }
+    public ExpressionNode Left { get; set; }
+    public ExpressionNode Middle { get; set; }
+    public ExpressionNode Right { get; set; }
 
-    public Node Parent { get; set; }
+    public ExpressionNode Parent { get; set; }
   }
 }

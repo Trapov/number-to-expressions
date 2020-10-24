@@ -1,4 +1,4 @@
-﻿namespace NumberToExpressions.Application.Internal {
+﻿namespace NumberToExpressions.Expressions.Internal {
   using System;
 
   internal sealed class CircullarReadOnlyCollection<TItem> {
@@ -12,7 +12,10 @@
     }
 
     internal TItem Next() {
-      return _items[_random.Next(0, _items.Length - 1) % (_items.Length + 1)];
+      return _items[IndexWithRoundRobin];
     }
+
+    private Int32 IndexWithRoundRobin => 
+      _random.Next(0, _items.Length - 1) % (_items.Length + 1);
   }
 }

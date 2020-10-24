@@ -1,12 +1,12 @@
 ﻿namespace NumberToExpressions.Web.Controllers {
 
   using System;
+  using System.Diagnostics;
   using System.Globalization;
 
   using Microsoft.AspNetCore.Mvc;
 
-  using NumberToExpressions.Application.Expressions;
-
+  using NumberToExpressions.Expressions;
 
   [ApiController]
   public sealed class ApiController : ControllerBase {
@@ -20,17 +20,29 @@
 
     public sealed class FindExpressionsBinding {
       public Double Number { get; set; }
-      public UInt32 Complexity { get; set; }
+      public UInt32? Complexity { get; set; } = 4;
     }
 
+    [HttpGet("/api/expressions")]
+    public IActionResult ExpressionsGet([FromQuery] FindExpressionsBinding getExpressionsBinding) =>
+      Execute(getExpressionsBinding);
+
     [HttpPost("/api/expressions")]
-    public IActionResult Expressions(
-        [FromBody] FindExpressionsBinding getExpressionsBinding
-    ) {
+    public IActionResult ExpressionsPost([FromBody] FindExpressionsBinding getExpressionsBinding) =>
+      Execute(getExpressionsBinding);
 
-      var result = _expressionsEvaluator.Evaluate(_expressionsFinder.FindExpressions(getExpressionsBinding.Number, getExpressionsBinding.Complexity));
+    private IActionResult Execute(FindExpressionsBinding getExpressionsBinding) {
+      var stopWatch = new Stopwatch();
+      stopWatch.Start();
 
-      return Ok(new { Value = string.IsNullOrWhiteSpace(result) ? getExpressionsBinding.Number.ToString(CultureInfo.InvariantCulture) : result });
+      var result = _expressionsEvaluator.Evaluate(_expressionsFinder.FindExpressions(getExpressionsBinding.Number, getExpressionsBinding.Complexity.Value));
+      stopWatch.Stop();
+      return Ok(new {
+        Value = String.IsNullOrWhiteSpace(result) 
+          ? getExpressionsBinding.Number.ToString(CultureInfo.InvariantCulture) 
+          : result,
+        ElapsedMs = stopWatch.ElapsedMilliseconds
+      });
     }
   }
 }

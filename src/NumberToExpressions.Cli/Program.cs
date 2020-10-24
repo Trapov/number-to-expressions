@@ -3,8 +3,8 @@
   using System;
   using System.Diagnostics;
 
-  using NumberToExpressions.Application.Expressions;
-  using NumberToExpressions.Application.Operations;
+  using NumberToExpressions.Expressions;
+  using NumberToExpressions.Expressions.Operations;
 
   public static class Program {
     public static void Main(String[] args) {

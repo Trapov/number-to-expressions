@@ -13,6 +13,7 @@
 
 <body>
   <div id="app">
+    <a class="made-by" href="https://trapov.github.io"> made by @Html.Raw("@trapov") (me) </a>
     <div class="input-form">
       <span>Your number: </span>
       <input type="number" v-model="model.number" />
@@ -20,7 +21,10 @@
       <input min="0" max="1000" type="range" v-model="model.complexity" />
     </div>
     <div v-on:click="copyToCp" class="expression-container">
-      <div> {{ expression }} </div>
+      <h1 class="title">
+        <span> Elapsed: {{ expressionResult.elapsedMs }} MS </span>
+      </h1>
+      <div> {{ expressionResult.value }} </div>
     </div>
   </div>
   <script>
@@ -63,39 +67,47 @@
             number: "10",
             complexity: "1"
           },
-          expression: "0"
+          expressionResult: {
+            value: "",
+            elapsedMs: 0
+          }
         }
       },
       watch: {
         model: {
           async handler(newmodel) {
-            await this.findExpressions({
+            this.expressionResult = await this.findExpressions({
               number: parseFloat(newmodel.number),
               complexity: parseInt(newmodel.complexity)
-            });
+            }) || this.expressionResult;
           },
           deep: true
         }
       },
       async mounted() {
-        await this.findExpressions({
+        this.expressionResult = await this.findExpressions({
           number: parseFloat(this.model.number),
           complexity: parseInt(this.model.complexity)
-        });
+        }) || this.expressionResult;
       },
       methods: {
         copyToCp() {
           copyTextToClipboard(this.expression);
         },
         async findExpressions(model) {
-          const result = await fetch('/api/expressions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(model)
-          });
-          this.expression = (await result.json())?.value;
+          try {
+            const result = await fetch('/api/expressions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(model)
+            });
+            return await result.json();
+          } catch (e) {
+            console.error(e);
+            return null;
+          }
         }
       }
     };

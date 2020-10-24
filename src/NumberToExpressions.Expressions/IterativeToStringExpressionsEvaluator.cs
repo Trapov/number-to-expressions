@@ -1,17 +1,17 @@
-﻿namespace NumberToExpressions.Application.Expressions {
+﻿namespace NumberToExpressions.Expressions {
 
   using System;
   using System.Collections.Generic;
   using System.Linq;
 
   public sealed class IterativeToStringExpressionsEvaluator : IToStringExpressionsEvaluator {
-    public String Evaluate(Node root) {
+    public String Evaluate(ExpressionNode root) {
       if (root.Left == null) {
         return root.Value.ToString();
       }
 
       var operators = new List<(String, List<String>)>();
-      var s = new Stack<Node>(new[] { root });
+      var s = new Stack<ExpressionNode>(new[] { root });
 
       while (s.Any()) {
         var node = s.Pop();
