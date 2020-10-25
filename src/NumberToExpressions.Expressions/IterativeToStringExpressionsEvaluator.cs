@@ -22,7 +22,11 @@
             var done = operators.ElementAt(0);
             operators.RemoveAt(0);
 
-            (operators[0].Item2).Insert(0, String.Format("(({0}{1}{2})+{3})", done.Item2[0], done.Item1, done.Item2[1], done.Item2[2]));
+            if (Double.TryParse(done.Item2[2], out var valueNumber) == false || Math.Abs(valueNumber) > 0) {
+              (operators[0].Item2).Insert(0, String.Format("(({0}{1}{2})+{3})", done.Item2[0], done.Item1, done.Item2[1], done.Item2[2]));
+            } else {
+              (operators[0].Item2).Insert(0, String.Format("({0}{1}{2})", done.Item2[0], done.Item1, done.Item2[1]));
+            }
           }
 
         } else {
@@ -34,7 +38,11 @@
       }
 
       var final = operators[0];
-      return String.Format("(({0}{1}{2})+{3})", final.Item2[0], final.Item1, final.Item2[1], final.Item2[2]);
+      if (Double.TryParse(final.Item2[2], out var value) == false || Math.Abs(value) > 0) {
+        return String.Format("(({0}{1}{2})+{3})", final.Item2[0], final.Item1, final.Item2[1], final.Item2[2]);
+      } else {
+        return String.Format("({0}{1}{2})", final.Item2[0], final.Item1, final.Item2[1]);
+      }
     }
   }
 }

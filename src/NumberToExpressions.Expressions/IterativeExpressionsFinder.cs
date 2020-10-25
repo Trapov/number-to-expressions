@@ -34,30 +34,43 @@
 
         (x, y, reminder) = operation.Handle(node.Value);
 
+        if (IsLeftOrMiddleLesserThanZero(x, y)) {
+          continue;
+        }
+
         node.Left = new ExpressionNode {
           Value = x,
           IsLeft = true,
           Parent = node
         };
+        stack.Push(node.Left);
 
         node.Middle = new ExpressionNode {
           Value = y,
           IsMiddle = true,
           Parent = node
         };
+        stack.Push(node.Middle);
 
         node.Right = new ExpressionNode {
           Value = reminder,
           IsRight = true,
           Parent = node
         };
-
-        stack.Push(node.Left);
-        stack.Push(node.Middle);
-        stack.Push(node.Right);
+        PushIfGreaterThanZero(stack, node.Right);
       }
 
       return rootNode;
+    }
+
+    private static Boolean IsLeftOrMiddleLesserThanZero(Double left, Double middle) {
+      return Math.Abs(left) <= 0 || Math.Abs(middle) <= 0;
+    }
+
+    private static void PushIfGreaterThanZero(Stack<ExpressionNode> stack, ExpressionNode node) {
+      if (Math.Abs(node.Value) > 0) {
+        stack.Push(node);
+      }
     }
   }
 }
