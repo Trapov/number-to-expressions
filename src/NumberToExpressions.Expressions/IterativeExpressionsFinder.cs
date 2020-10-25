@@ -9,10 +9,10 @@
 
   public sealed class IterativeExpressionsFinder : IExpressionsFinder {
 
-    private readonly CircullarReadOnlyCollection<IOperation> _circullarOperations;
+    private readonly RandomReadOnlyCollection<IOperation> _operations;
 
     public IterativeExpressionsFinder(IOperation[] operations, Int32? seed) {
-      _circullarOperations = new CircullarReadOnlyCollection<IOperation>(operations, seed);
+      _operations = new RandomReadOnlyCollection<IOperation>(operations, seed);
     }
 
     public ExpressionNode FindExpressions(Double number, UInt32 deepLength) {
@@ -29,7 +29,7 @@
           node = stack.Pop();
         }
 
-        var operation = _circullarOperations.Next();
+        var operation = _operations.Next();
         node.Operation = operation;
 
         (x, y, reminder) = operation.Handle(node.Value);
