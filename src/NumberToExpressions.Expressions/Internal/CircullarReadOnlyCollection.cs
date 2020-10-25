@@ -16,6 +16,6 @@
     }
 
     private Int32 IndexWithRoundRobin => 
-      _random.Next(0, _items.Length - 1) % (_items.Length + 1);
+      _random.Next(0, _items.Length) % (_items.Length + 1);
   }
 }
