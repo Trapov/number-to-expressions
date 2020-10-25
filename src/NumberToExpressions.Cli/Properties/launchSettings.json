@@ -2,7 +2,7 @@
   "profiles": {
     "NumberToExpressions.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "3,4 --complexity=100 --verbose"
+      "commandLineArgs": "-16.1231231 --complexity=5 --seed=-1201372560  --verbose"
     }
   }
 }

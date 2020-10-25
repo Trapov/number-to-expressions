@@ -103,7 +103,10 @@
               },
               body: JSON.stringify(model)
             });
-            return await result.json();
+            if (result.status == 200) {
+              return await result.json();
+            }
+            return null;
           } catch (e) {
             console.error(e);
             return null;

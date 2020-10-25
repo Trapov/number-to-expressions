@@ -12,8 +12,8 @@
 
     public (Double y, Double z, Double a) Handle(Double x) {
       var divideBy = _random.Next(1, 15);
-      var reminder = x % divideBy;
-      var div = Math.Floor(x / divideBy);
+      var reminder = (x % divideBy);
+      var div = x > 0 ? Math.Floor(x / divideBy) : Math.Ceiling(x / divideBy);
       return (div, divideBy, reminder);
     }
 
