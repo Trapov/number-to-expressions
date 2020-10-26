@@ -47,7 +47,7 @@
           );
       }
       catch (Exception e) {
-        throw new InvalidOperationException("Usage ./number-to-expressions (number) [--complexity 4] [--seed 1231] [--verbose]", e);
+        throw new InvalidOperationException("Usage ./number-to-expressions (number) [--complexity=4] [--seed=1231] [--verbose]", e);
       }
     }
 
