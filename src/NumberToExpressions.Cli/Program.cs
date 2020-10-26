@@ -2,14 +2,21 @@
 
   using System;
   using System.Diagnostics;
+  using System.IO;
+
+  using CommandLine;
 
   using NumberToExpressions.Expressions;
   using NumberToExpressions.Expressions.Operations;
 
+
   public static class Program {
     public static void Main(String[] args) {
-      var arguments = ParseArgs(args);
+      Parser.Default.ParseArguments<Arguments>(args)
+        .WithParsed(NumberToExpressionLogic);
+    }
 
+    private static void NumberToExpressionLogic(Arguments arguments) {
       var finder = new IterativeExpressionsFinder(new IOperation[] {
         new PlusFromDiv(),
         new Plus(arguments.Seed),
@@ -26,8 +33,12 @@
       var evaulator = new IterativeToStringExpressionsEvaluator();
       var node = finder.FindExpressions(arguments.Number, arguments.Complexity);
 
-      Console.WriteLine(evaulator.Evaluate(node));
-      
+      if (string.IsNullOrWhiteSpace(arguments.FileName)) {
+        Console.WriteLine(evaulator.Evaluate(node));
+      } else {
+        File.WriteAllText(arguments.FileName, evaulator.Evaluate(node));
+      }
+
       if (arguments.Verbose) {
         stopWatch.Stop();
         Console.WriteLine("----------------");
@@ -37,22 +48,5 @@
         Console.WriteLine("\u001b[32mElapsed:\u001b[0m {0} ms", stopWatch.ElapsedMilliseconds);
       }
     }
-
-    private static Arguments ParseArgs(String[] args) {
-      Arguments arguments = null;
-
-      try {
-        arguments = new Arguments(args);
-      }
-      catch (InvalidOperationException e) {
-        Console.WriteLine(e.Message);
-        Console.WriteLine("------------");
-        Console.WriteLine(e.InnerException);
-        Environment.Exit(-1);
-      }
-
-      return arguments;
-    }
   }
-
 }

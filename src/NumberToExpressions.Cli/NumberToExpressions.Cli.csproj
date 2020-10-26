@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NumberToExpressions.Expressions.Operations\NumberToExpressions.Expressions.Operations.csproj" />
     <ProjectReference Include="..\NumberToExpressions.Expressions\NumberToExpressions.Expressions.csproj" />
   </ItemGroup>
